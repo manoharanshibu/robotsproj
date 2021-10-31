@@ -1,13 +1,22 @@
 import React, { useState } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import { Button, TextField } from '@mui/material';
+import LeftPane from './components/LeftPane'
+
+export interface IState {
+  robot: {
+    orientation: String[]
+    direction: String[]
+    onClick: any
+    onChange: any
+    onSetDirection: any
+  }
+}
+
 
 function App() {
 
-  const [orientation, setOrientation] = useState<String>('');
-  const [direction, setDirection] = useState<string[]>([]);
-  const [rows, setRows] = useState(1);
+  const [orientation, setOrientation] = useState<String[]>([]);
+  const [direction, setDirection] = useState<String[]>([]);
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (parseInt(event.target.value) > 50) {
@@ -17,84 +26,22 @@ function App() {
     }
   }
 
-  const onSetDirection = (index: number, dir: string) => {
+  const onSetDirection = (index: number, dir: string):void => {
     const arr = [...direction];
     arr[index] = (direction[index] ? direction[index] : '') + dir
     setDirection(arr)
   }
 
-  const onClick = (orientation: string) => {
-    setOrientation(orientation)
+  const onClick = (index: number, orient: string) => {
+    const arr = [...orientation];
+    arr[index] = orient
+    setOrientation(arr)
   }
 
   return (
     <div className="App">
       <h1>Robots</h1>
-      <h2>Bouding Rect</h2>
-      <TextField
-        type="number"
-        InputProps={{
-          inputProps: {
-            max: 50, min: 0
-          }
-        }}
-        label=""
-        onChange={onChange}
-      />&nbsp;&nbsp;
-      <TextField
-        type="number"
-        InputProps={{
-          inputProps: {
-            max: 50, min: 0
-          }
-        }}
-        label=""
-        onChange={onChange}
-      />
-      <br /><br />
-      <TextField
-        type="number"
-        InputProps={{
-          inputProps: {
-            max: 50, min: 0
-          }
-        }}
-        label=""
-        onChange={onChange}
-      />&nbsp;&nbsp;
-      <TextField
-        type="number"
-        InputProps={{
-          inputProps: {
-            max: 50, min: 0
-          }
-        }}
-        label=""
-        onChange={onChange}
-      />
-      <TextField
-        type="text"
-        value={orientation}
-        disabled
-      />
-      <Button onClick={() => onClick("N")}>N</Button>
-      <Button onClick={() => onClick("S")}>S</Button>
-      <Button onClick={() => onClick("E")}>E</Button>
-      <Button onClick={() => onClick("W")}>W</Button>
-      <br /><br />
-
-      {[...Array(rows)].map((item, index) => <>
-        <TextField
-          type="text"
-          value={direction[index]}
-          disabled
-        />
-        <Button onClick={(event) => onSetDirection(index, "L")} name={`LButton${index}`} disabled={direction.length >= 50}>L</Button>
-        <Button onClick={(event) => onSetDirection(index, "S")} name={`RButton${index}`} disabled={direction.length >= 50}>S</Button>
-
-        <br /><br /></>
-      )}
-      <Button onClick={() => setRows(rows + 1)} >Add Row</Button>
+      <LeftPane onChange={onChange} orientation={orientation} direction={direction} onSetDirection={onSetDirection} onClick={onClick} />
     </div>
   );
 }
