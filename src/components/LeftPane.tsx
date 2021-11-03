@@ -37,8 +37,8 @@ const LeftPane: React.FC<IProps['robot']> = ({ onChange, orientation, onClick, d
 
             <div></div>
             {
-                [...Array(rows)].map((item, index) => <div><div>
-                    <h2>Orientation</h2>
+                [...Array(rows)].map((item, index) => <div className="row"><h2>Robot {index}</h2><div className="row">
+                    <h4>Orientation</h4>
                     <TextField
                         type="number"
                         InputProps={{
@@ -72,7 +72,7 @@ const LeftPane: React.FC<IProps['robot']> = ({ onChange, orientation, onClick, d
                     <Button onClick={() => onClick(index, "E")}>E</Button>
                     <Button onClick={() => onClick(index, "W")}>W</Button>
                     <br /><br />
-                    <h2>Direction</h2>
+                    <h4>Direction</h4>
                     <TextField
                         type="text"
                         value={direction[index]}
